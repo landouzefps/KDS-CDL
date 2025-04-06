@@ -1,0 +1,39 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // Collection des utilisateurs
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+
+    // Collection des joueurs
+    match /players/{playerId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Collection des résultats
+    match /results/{resultId} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+
+    // Collection des paramètres
+    match /settings/{documentId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+} 

@@ -1,0 +1,30 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Fonction pour vérifier si l'utilisateur est authentifié
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Fonction pour vérifier si l'utilisateur est administrateur
+    function isAdmin() {
+      return isAuthenticated() && 
+        request.auth.token.email in ['ytlandouze@gmail.com'];
+    }
+
+    // Règles pour la collection des joueurs
+    match /players/{playerId} {
+      // Tout le monde peut lire les joueurs
+      allow read: if true;
+      
+      // Seuls les administrateurs peuvent modifier les joueurs
+      allow write: if isAdmin();
+    }
+
+    // Règles temporaires pour le débogage - tout est autorisé
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+} 
